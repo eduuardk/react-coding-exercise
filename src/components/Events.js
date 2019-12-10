@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useSelector } from 'react-redux'
-import { getEvents, isEventsReady } from '../selectors'
+import { getEvents, isEventsReady, getEventsError } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
@@ -11,6 +11,7 @@ const Events = () => {
   const classes = useStyles()
   const ready = useSelector(isEventsReady)
   const events = useSelector(getEvents)
+  const eventsError = useSelector(getEventsError)
 
   return (
     <div className={classes.container}>
@@ -19,13 +20,18 @@ const Events = () => {
         Results
         {ready && <span> {events.length} events found</span>}
       </h3>
-      {!ready && (
+      {!ready && !eventsError && (
         <GridLoader
           size={10}
           css='margin: 20px auto'
           color='#18163b'
           loading={!ready}
         />
+      )}
+      {eventsError && (
+        <div className={classes.errorWrapper}>
+          <p className={classes.errorMSg}>Opps! Something went wrong. Please try again :)</p>
+        </div>
       )}
       {ready && (
         <div className={classes.tilesWrapper}>
@@ -50,6 +56,14 @@ const useStyles = createUseStyles({
     width: 11,
     height: 11,
     fill: 'currentColor'
+  },
+  errorWrapper: {
+    textAlign: 'center'
+  },
+  errorMSg: {
+    color: '#9a9a9a',
+    lineHeight: 1.3,
+    textTransform: 'uppercase'
   },
   tilesWrapper: {
     margin: [0, 'auto'],
