@@ -5,6 +5,7 @@ import { getEvents, isEventsReady } from '../selectors'
 import { ReactComponent as TitleIcon } from '../icons/vivid-angle-top-left.svg'
 import theme from '../style/theme'
 import Event from './Event'
+import GridLoader from 'react-spinners/GridLoader'
 
 const Events = () => {
   const classes = useStyles()
@@ -18,7 +19,14 @@ const Events = () => {
         Results
         {ready && <span> {events.length} events found</span>}
       </h3>
-      {!ready && <p>Loading...</p>}
+      {!ready && (
+        <GridLoader
+          size={10}
+          css='margin: 20px auto'
+          color='#18163b'
+          loading={!ready}
+        />
+      )}
       {ready && (
         <div className={classes.tilesWrapper}>
           <div className={classes.tiles}>
