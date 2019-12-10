@@ -16,6 +16,7 @@ const Events = () => {
       <h3 className={classes.title}>
         <TitleIcon className={classes.titleIcon} />
         Results
+        {ready && <span> {events.length} events found</span>}
       </h3>
       {!ready && <p>Loading...</p>}
       {ready && (
